@@ -89,6 +89,7 @@
       "group": "Reference",
       "pages": [
         "docs/common-mistakes",
+        "docs/benchmarks/parity",
         "docs/glossary",
         "docs/contributing"
       ]
