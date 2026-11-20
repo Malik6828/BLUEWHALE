@@ -143,7 +143,31 @@ describe('AddressInput – showCopyButton (#95)', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/✓ Copied!/i)).toBeInTheDocument();
+      expect(screen.getByRole('status')).toHaveTextContent('Copied!');
     });
+  });
+
+  it('uses the legacy clipboard fallback when the Clipboard API is unavailable', async () => {
+    Object.defineProperty(navigator, 'clipboard', {
+      value: undefined,
+      configurable: true,
+    });
+    Object.defineProperty(window, 'isSecureContext', {
+      value: false,
+      configurable: true,
+    });
+    const execCommand = vi.fn().mockReturnValue(true);
+    Object.defineProperty(document, 'execCommand', {
+      value: execCommand,
+      configurable: true,
+    });
+
+    renderComponent({ showCopyButton: true });
+    await userEvent.type(getAddressInput(), MOCK_ADDRESS);
+    await userEvent.click(screen.getAllByRole('button', { name: /copy/i })[0]);
+
+    expect(execCommand).toHaveBeenCalledWith('copy');
+    expect(screen.getByRole('status')).toHaveTextContent('Copied!');
   });
 
   it('shows copy button for routing ID when memo is provided', async () => {

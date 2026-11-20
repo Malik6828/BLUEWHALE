@@ -1,7 +1,15 @@
 import React, { useState, useMemo, useEffect, useCallback, CSSProperties } from 'react';
 import { TypeBadge, AddressType } from './components/TypeBadge';
-import { WarningList, WarningItem } from './components/WarningList';
+import { WarningList } from './components/WarningList';
 import { MemoField } from './components/MemoField';
+
+interface WarningItem {
+  code: string;
+  message: string;
+  severity: 'error';
+}
+
+const EMPTY_WARNINGS: WarningItem[] = [];
 
 /**
  * A simplified routing result for the UI layer.
@@ -48,32 +56,40 @@ function CopyButton({
   value,
   label,
   copiedKey,
+  copied,
   onCopy,
 }: {
   value: string;
   label: string;
   copiedKey: keyof CopyState;
+  copied: boolean;
   onCopy: (key: keyof CopyState) => void;
 }) {
+  const [copyFailed, setCopyFailed] = useState(false);
   const handleClick = useCallback(async () => {
+    setCopyFailed(false);
     try {
-      if (navigator.clipboard && window.isSecureContext) {
+      if (navigator.clipboard?.writeText && window.isSecureContext) {
         await navigator.clipboard.writeText(value);
       } else {
-        // Fallback for non-secure contexts
         const el = document.createElement('textarea');
         el.value = value;
         el.style.position = 'fixed';
         el.style.opacity = '0';
         document.body.appendChild(el);
-        el.focus();
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
+        let copied = false;
+        try {
+          el.focus();
+          el.select();
+          copied = document.execCommand('copy');
+        } finally {
+          document.body.removeChild(el);
+        }
+        if (!copied) throw new Error('Clipboard copy was rejected');
       }
       onCopy(copiedKey);
     } catch {
-      // silently fail – clipboard unavailable
+      setCopyFailed(true);
     }
   }, [value, copiedKey, onCopy]);
 
@@ -97,6 +113,24 @@ function CopyButton({
       }}
     >
       {label}
+      <span
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: 'absolute',
+          width: '1px',
+          height: '1px',
+          padding: 0,
+          margin: '-1px',
+          overflow: 'hidden',
+          clip: 'rect(0, 0, 0, 0)',
+          whiteSpace: 'nowrap',
+          border: 0,
+        }}
+      >
+        {copied ? 'Copied!' : copyFailed ? 'Copy failed.' : ''}
+      </span>
     </button>
   );
 }
@@ -158,6 +192,7 @@ function RoutingSummary({
               value={baseAccount ?? displayAccount}
               label={copied.account ? '✓ Copied!' : 'Copy'}
               copiedKey="account"
+              copied={copied.account}
               onCopy={handleCopy}
             />
           </div>
@@ -183,6 +218,7 @@ function RoutingSummary({
                 value={memo}
                 label={copied.routingId ? '✓ Copied!' : 'Copy'}
                 copiedKey="routingId"
+                copied={copied.routingId}
                 onCopy={handleCopy}
               />
             </div>
@@ -241,11 +277,6 @@ export const AddressInput: React.FC<AddressInputProps> = ({
       handleInput(pasted);
     }
   };
-
-  const baseId = useStableId('bluewhale-address');
-  const inputId = `${baseId}-input`;
-  const warningsId = `${baseId}-warnings`;
-  const statusId = `${baseId}-status`;
 
   const type = useMemo<AddressType>(() => {
     if (!address) return 'UNKNOWN';
@@ -306,7 +337,6 @@ export const AddressInput: React.FC<AddressInputProps> = ({
           </div>
         )}
         <input
-          id={inputId}
           type="text"
           placeholder="Paste Stellar address (G..., M..., C...)"
           value={address}
