@@ -18,6 +18,8 @@ export type StrKeyDecodeResult =
       kind: StrKeyKind;
       /** Canonical (uppercase) address. */
       address: string;
+      /** True when lowercase input was normalized (only with `allowLowercase`). */
+      normalized: boolean;
       /** Version byte as found in the decoded strkey. */
       versionByte: number;
       /** Decoded payload without version byte or checksum. */
@@ -42,6 +44,20 @@ const VERSION_BYTE: Readonly<Record<StrKeyKind, number>> = Object.freeze({
   C: 2 << 3,
 });
 
+/** Options for {@link decodeStrKey}. */
+export interface StrKeyDecodeOptions {
+  /**
+   * Accept lowercase or mixed-case input and normalize it to uppercase.
+   * Off by default: StrKeys are uppercase and lowercase input is rejected
+   * with `INVALID_BASE32`.
+   */
+  allowLowercase?: boolean;
+}
+
+const LOWERCASE = /[a-z]/;
+/** Base32 alphabet plus ASCII lowercase; nothing else may ever be uppercased. */
+const ASCII_STRKEY_CHARS = /^[A-Za-z2-7]*$/;
+
 function fail(error: StrKeyDecodeErrorCode): StrKeyDecodeResult {
   return { ok: false, error };
 }
@@ -53,21 +69,31 @@ function fail(error: StrKeyDecodeErrorCode): StrKeyDecodeResult {
  * implementation reports the same error code for the same input:
  *
  * 1. non-string or empty input           -> `INVALID_LENGTH`
- * 2. first character not G/M/C           -> `UNKNOWN_PREFIX`
- * 3. length differs from the kind's size -> `INVALID_LENGTH`
- *    (truncated or over-long input is rejected here, before any slicing)
- * 4. character outside the base32 alphabet or non-zero trailing bits
+ * 2. first character not G/M/C/g/m/c     -> `UNKNOWN_PREFIX`
+ * 3. any ASCII lowercase letter, unless `allowLowercase` is set
  *                                        -> `INVALID_BASE32`
- * 5. CRC16 mismatch                      -> `INVALID_CHECKSUM`
+ * 4. character outside A-Z, a-z, 2-7     -> `INVALID_BASE32`
+ *    (checked before uppercasing, so non-ASCII letters such as U+017F,
+ *    which `toUpperCase()` folds to "S", can never become valid)
+ * 5. length differs from the kind's size -> `INVALID_LENGTH`
+ *    (truncated or over-long input is rejected here, before any slicing)
+ * 6. non-zero trailing bits              -> `INVALID_BASE32`
+ * 7. CRC16 mismatch                      -> `INVALID_CHECKSUM`
  *
- * See spec/vectors/truncated-addresses.json.
+ * See spec/vectors/truncated-addresses.json and
+ * spec/vectors/case-sensitivity.json.
  */
-export function decodeStrKey(input: unknown): StrKeyDecodeResult {
+export function decodeStrKey(input: unknown, options: StrKeyDecodeOptions = {}): StrKeyDecodeResult {
   if (typeof input !== "string" || input.length === 0) return fail("INVALID_LENGTH");
 
-  const address = input.toUpperCase();
-  const kind = address[0] as StrKeyKind;
-  if (kind !== "G" && kind !== "M" && kind !== "C") return fail("UNKNOWN_PREFIX");
+  const prefix = input[0];
+  if (!"GMCgmc".includes(prefix)) return fail("UNKNOWN_PREFIX");
+  const kind = prefix.toUpperCase() as StrKeyKind;
+
+  const hasLowercase = LOWERCASE.test(input);
+  if (hasLowercase && !options.allowLowercase) return fail("INVALID_BASE32");
+  if (!ASCII_STRKEY_CHARS.test(input)) return fail("INVALID_BASE32");
+  const address = hasLowercase ? input.toUpperCase() : input;
   if (address.length !== STRKEY_ENCODED_LENGTH[kind]) return fail("INVALID_LENGTH");
 
   const byteCount = Math.floor((address.length * 5) / 8);
@@ -97,6 +123,7 @@ export function decodeStrKey(input: unknown): StrKeyDecodeResult {
     ok: true,
     kind,
     address,
+    normalized: hasLowercase,
     versionByte: bytes[0],
     payload: bytes.slice(1, n - 2),
   };
