@@ -87,10 +87,10 @@ function CopyButton({
         marginLeft: '0.5rem',
         padding: '0.2rem 0.5rem',
         fontSize: '0.75rem',
-        border: '1px solid #cbd5e1',
+        border: '1px solid var(--bw-border, #cbd5e1)',
         borderRadius: '0.25rem',
-        backgroundColor: '#f8fafc',
-        color: '#475569',
+        backgroundColor: 'var(--bw-bg, #f8fafc)',
+        color: 'var(--bw-text, #475569)',
         cursor: 'pointer',
         flexShrink: 0,
         transition: 'background-color 0.15s ease',
@@ -133,11 +133,11 @@ function RoutingSummary({
       style={{
         marginTop: '0.5rem',
         padding: '0.5rem 0.75rem',
-        backgroundColor: '#f1f5f9',
-        border: '1px solid #e2e8f0',
+        backgroundColor: 'var(--bw-bg, #f1f5f9)',
+        border: '1px solid var(--bw-border, #e2e8f0)',
         borderRadius: '0.375rem',
         fontSize: '0.8125rem',
-        color: '#334155',
+        color: 'var(--bw-text, #334155)',
       }}
     >
       <div
@@ -316,7 +316,9 @@ export const AddressInput: React.FC<AddressInputProps> = ({
           style={{
             width: '100%',
             padding: `0.75rem 0.75rem 0.75rem ${type !== 'UNKNOWN' ? '3rem' : '0.75rem'}`,
-            border: `1px solid ${type === 'C' ? '#f87171' : '#cbd5e1'}`,
+            border: `1px solid ${type === 'C' ? '#f87171' : 'var(--bw-border, #cbd5e1)'}`,
+            backgroundColor: 'var(--bw-bg, #ffffff)',
+            color: 'var(--bw-text, #1e293b)',
             borderRadius: '0.5rem',
             fontSize: '1rem',
             boxSizing: 'border-box',
