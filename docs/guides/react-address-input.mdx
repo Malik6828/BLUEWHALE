@@ -60,6 +60,24 @@ import type { AddressType } from "@redishfish/bluewhale";
 
 For backend-grade routing extraction (muxed ID decoding, memo reconciliation, precision warnings), pair these components with [`@redishfish/bluewhale-core`](/docs/api-reference/extract-routing).
 
+## Validation message localization
+
+`AddressInput` supports English (`en`), Spanish (`es`), French (`fr`), Chinese
+(`zh`), and Russian (`ru`). Pass `locale` to select the built-in messages, or
+provide a `translations` object to override individual validation messages:
+
+```tsx
+<AddressInput
+  locale="es"
+  translations={{
+    contractAddressWarning: "Custom message for contract destinations.",
+  }}
+/>
+```
+
+The override keys are `contractAddressWarning` and
+`muxedAddressMemoWarning`; omitted keys use the selected locale's translation.
+
 ## Theming
 
 Import the optional stylesheet to apply the default theme and mobile layout:

@@ -2,14 +2,11 @@ import React, { useState, useMemo, useEffect, useCallback, CSSProperties } from 
 import { TypeBadge, AddressType } from './components/TypeBadge';
 import { WarningList } from './components/WarningList';
 import { MemoField } from './components/MemoField';
-
-interface WarningItem {
-  code: string;
-  message: string;
-  severity: 'error';
-}
-
-const EMPTY_WARNINGS: WarningItem[] = [];
+import {
+  AddressInputLocale,
+  AddressInputTranslations,
+  getAddressInputTranslations,
+} from './i18n';
 
 /**
  * A simplified routing result for the UI layer.
@@ -45,6 +42,12 @@ export interface AddressInputProps {
    * Inline styles applied to the root element.
    */
   style?: CSSProperties;
+
+  /** Language used for built-in validation messages. @default "en" */
+  locale?: AddressInputLocale;
+
+  /** Override any built-in validation message. */
+  translations?: Partial<AddressInputTranslations>;
 }
 
 interface CopyState {
@@ -234,49 +237,15 @@ export const AddressInput: React.FC<AddressInputProps> = ({
   showCopyButton = false,
   className,
   style,
+  locale = 'en',
+  translations,
 }) => {
   const [address, setAddress] = useState('');
   const [memo, setMemo] = useState('');
-  // Set when the current address/memo came from a decoded SEP-0007 URI.
-  const [decodedFromURI, setDecodedFromURI] = useState(false);
-  const [uriWarnings, setUriWarnings] = useState<WarningItem[]>(EMPTY_WARNINGS);
-
-  /**
-   * Handle raw input. A pasted/scanned `web+stellar:pay?...` URI is parsed
-   * with extractRoutingFromURI and its destination and memo populate the
-   * fields; anything else is taken as a plain address.
-   */
-  const handleInput = (raw: string) => {
-    if (!isSep7URI(raw)) {
-      setAddress(raw);
-      setDecodedFromURI(false);
-      setUriWarnings(EMPTY_WARNINGS);
-      return;
-    }
-
-    const trimmed = raw.trim();
-    // The core parser matches the scheme case-sensitively; normalize it.
-    const result = extractRoutingFromURI(SEP7_SCHEME + trimmed.slice(SEP7_SCHEME.length));
-    if (result.success) {
-      setAddress(result.rawParams.destination);
-      setMemo(result.rawParams.memo ?? '');
-      setDecodedFromURI(true);
-      setUriWarnings(result.routing.warnings);
-    } else {
-      // Error text from core is already sanitized of sensitive query values.
-      setAddress(trimmed);
-      setDecodedFromURI(false);
-      setUriWarnings([{ code: result.code, message: `Could not decode Stellar URI: ${result.error}`, severity: 'error' }]);
-    }
-  };
-
-  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    const pasted = e.clipboardData.getData('text');
-    if (isSep7URI(pasted)) {
-      e.preventDefault();
-      handleInput(pasted);
-    }
-  };
+  const messages = useMemo(
+    () => getAddressInputTranslations(locale, translations),
+    [locale, translations],
+  );
 
   const type = useMemo<AddressType>(() => {
     if (!address) return 'UNKNOWN';
@@ -290,15 +259,15 @@ export const AddressInput: React.FC<AddressInputProps> = ({
   const showMemo = type === 'G' || type === 'UNKNOWN';
 
   const warnings = useMemo(() => {
-    const list: WarningItem[] = [];
+    const list: string[] = [];
     if (type === 'C') {
-      list.push('Contract addresses cannot be used for standard payments.');
+      list.push(messages.contractAddressWarning);
     }
     if (type === 'M' && memo) {
-      list.push('Memo is ignored when using an M-address (routing ID is encoded in the address).');
+      list.push(messages.muxedAddressMemoWarning);
     }
     return list;
-  }, [type, memo]);
+  }, [type, memo, messages]);
 
   const routingResult = useMemo<RoutingResult>(() => {
     const isValid = address.length > 0 && type !== 'C' && type !== 'UNKNOWN';
