@@ -74,6 +74,17 @@ Go module versions are published as git tags of the form
 - `address.CalculateCRC16` processes eight bytes per loop iteration; results
   are unchanged (#207).
 
+## [1.3.1] - 2026-11-21
+
+### Added
+
+- 20 muxed_encode boundary vectors (`muxed_encode`) with matching G-address pairs.
+- 16 muxed_decode negative vectors for illegal base32 characters.
+
+### Changed
+
+- `spec_version` is 1.3.1.
+
 ## [1.2.0] - 2026-09-24
 
 Implements spec `1.2.0`. First versioned release of the Go module; earlier

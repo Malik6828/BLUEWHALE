@@ -79,6 +79,17 @@ Releases are coordinated with `spec/vectors.json` `spec_version`: see
   added to `analysis_options.yaml` along with the missing community rules, and
   every finding was fixed (#71).
 
+## [1.3.1] - 2026-11-21
+
+### Added
+
+- 20 muxed_encode boundary vectors (`muxed_encode`) with matching G-address pairs.
+- 16 muxed_decode negative vectors for illegal base32 characters.
+
+### Changed
+
+- `spec_version` is 1.3.1.
+
 ## [1.2.0] - 2026-09-24
 
 Implements spec `1.2.0`.
