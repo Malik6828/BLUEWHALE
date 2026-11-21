@@ -745,6 +745,230 @@
         "positive",
         "boundary"
       ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '0' at position 1",
+      "input": {
+        "mAddress": "M0YCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '1' at position 1",
+      "input": {
+        "mAddress": "M1YCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '8' at position 1",
+      "input": {
+        "mAddress": "M8YCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '9' at position 1",
+      "input": {
+        "mAddress": "M9YCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '0' at position 20",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW0GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '1' at position 20",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW1GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '8' at position 20",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW8GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '9' at position 20",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW9GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '0' at position 40",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAP0P53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '1' at position 40",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAP1P53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '8' at position 40",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAP8P53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '9' at position 40",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAP9P53KJO7EIQACAAAAAAAAAAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '0' at position 60",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAA0AAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '1' at position 60",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAA1AAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '8' at position 60",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAA8AAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "illegal base32 character '9' at position 60",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAA9AAAFLKXQ"
+      },
+      "expected": {
+        "expected_error": "invalid encoded string"
+      },
+      "tags": [
+        "negative",
+        "charset"
+      ]
     }
   ]
 }
