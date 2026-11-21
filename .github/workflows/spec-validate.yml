@@ -19,3 +19,4 @@ jobs:
       - run: node spec/validate.js
       - run: node scripts/check-spec-version-bump.js
       - run: node scripts/check-vectors-sync.js
+      - run: node scripts/generate-parity-matrix.js --check
