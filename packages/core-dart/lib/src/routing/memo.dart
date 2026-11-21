@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import '../address/codes.dart';
 import 'safe_routing_id.dart';
 
@@ -119,4 +121,44 @@ NormalizeResult normalizeMemoTextId(String s) {
   }
 
   return NormalizeResult(normalized: normalized, warnings: warnings);
+}
+
+/// A 32-byte `MEMO_HASH` or `MEMO_RETURN` value.
+///
+/// Exchanges and payment bridges usually carry these as 64-character hex
+/// strings. [Memo.fromHexHash] parses one and [toHexString] writes it back.
+///
+/// ```dart
+/// final memo = Memo.fromHexHash('00' * 32);
+/// memo.toHexString(); // 64 zeros: leading zero bytes are kept
+/// ```
+class Memo {
+  /// The 32 raw bytes of the memo.
+  final Uint8List bytes;
+
+  Memo._(this.bytes);
+
+  static final RegExp _hexHash = RegExp(r'^[0-9a-fA-F]{64}$');
+
+  /// Parses exactly 64 hexadecimal characters, upper or lower case.
+  ///
+  /// Throws a [FormatException] for any other length or any character
+  /// outside `0-9a-fA-F`.
+  factory Memo.fromHexHash(String hex) {
+    if (!_hexHash.hasMatch(hex)) {
+      throw FormatException(
+        'A hash memo must be exactly 64 hexadecimal characters (0-9, a-f).',
+        hex,
+      );
+    }
+    final bytes = Uint8List(32);
+    for (var i = 0; i < 32; i++) {
+      bytes[i] = int.parse(hex.substring(i * 2, i * 2 + 2), radix: 16);
+    }
+    return Memo._(bytes);
+  }
+
+  /// Lowercase hex, always 64 characters, so leading zero bytes are kept.
+  String toHexString() =>
+      bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
 }

@@ -11,6 +11,8 @@ Releases are coordinated with `spec/vectors.json` `spec_version`: see
 
 ### Added
 
+- `Memo.fromHexHash` and `Memo.toHexString` for 32-byte `MEMO_HASH` and
+  `MEMO_RETURN` values as 64-character hex strings (#386).
 - `RoutingWarning.fromJson`, plus `DestinationError.toJson` / `fromJson` and
   value equality, so every part of a `RoutingResult` round-trips on its own
   (#228).
