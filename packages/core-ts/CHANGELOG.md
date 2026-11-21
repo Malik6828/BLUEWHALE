@@ -56,6 +56,18 @@ Releases are coordinated with `spec/vectors.json` `spec_version`: see
   conditions (#200) and declares `"sideEffects": false`, with a test that
   importing only `extractRouting` stays under 5 KB gzipped (#194).
 
+## [1.3.0] - 2026-11-21
+
+### Added
+
+- SEP-0029 routing vectors (`extract_routing`) for a no-memo G-address, a C-address
+  rejected with a MEMO_ID, and a hash memo that emits `UNSUPPORTED_MEMO_TYPE`.
+- Negative `muxed_decode` vectors for non-canonical base32 padding.
+
+### Changed
+
+- `spec_version` is 1.3.0.
+
 ## [1.2.0] - 2026-09-24
 
 Implements spec `1.2.0`.
