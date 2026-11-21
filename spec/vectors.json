@@ -518,6 +518,62 @@
         "negative",
         "sep-0029"
       ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "non-canonical padding for id=0: unused trailing bit set",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAAD673"
+      },
+      "expected": {
+        "expected_error": "unused bits in base32 encoding must be zero"
+      },
+      "tags": [
+        "negative",
+        "canonical"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "non-canonical padding for id=1: unused trailing bit set",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAAHOO3"
+      },
+      "expected": {
+        "expected_error": "unused bits in base32 encoding must be zero"
+      },
+      "tags": [
+        "negative",
+        "canonical"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "non-canonical padding for id=9007199254740992: unused trailing bit set",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACABAAAAAAAAAAAFZH"
+      },
+      "expected": {
+        "expected_error": "unused bits in base32 encoding must be zero"
+      },
+      "tags": [
+        "negative",
+        "canonical"
+      ]
+    },
+    {
+      "module": "muxed_decode",
+      "description": "non-canonical padding for id=18446744073709551615: unused trailing bit set",
+      "input": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQAD7777777777774OFX"
+      },
+      "expected": {
+        "expected_error": "unused bits in base32 encoding must be zero"
+      },
+      "tags": [
+        "negative",
+        "canonical"
+      ]
     }
   ]
 }
