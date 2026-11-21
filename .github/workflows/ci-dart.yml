@@ -25,6 +25,8 @@ jobs:
       - run: cd packages/core-dart && dart pub get
       - run: cd packages/core-dart && dart format --output=none --set-exit-if-changed .
       - run: cd packages/core-dart && dart analyze --fatal-infos
+      - run: dart pub global activate pana
+      - run: cd packages/core-dart && dart pub global run pana --no-warning --exit-code-threshold 130
       - run: cd packages/core-dart && dart test --coverage=coverage
       - run: cd packages/core-dart && dart run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --report-on=lib
       - run: cd packages/core-dart && dart test test/web_compat --platform chrome
