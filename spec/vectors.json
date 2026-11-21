@@ -445,6 +445,79 @@
         }
       },
       "tags": ["negative", "sep-0029"]
+    },
+    {
+      "module": "extract_routing",
+      "description": "G-address with no memo: no routing ID is derived",
+      "input": {
+        "destination": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "memoType": "none"
+      },
+      "expected": {
+        "destinationBaseAccount": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "routingId": null,
+        "routingSource": "none",
+        "warnings": []
+      },
+      "tags": [
+        "positive",
+        "sep-0029"
+      ]
+    },
+    {
+      "module": "extract_routing",
+      "description": "C-address with MEMO_ID is still rejected: a memo does not make a contract routable",
+      "input": {
+        "destination": "CAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACVXR",
+        "memoType": "id",
+        "memoValue": "100"
+      },
+      "expected": {
+        "destinationBaseAccount": null,
+        "routingId": null,
+        "routingSource": "none",
+        "warnings": [
+          {
+            "code": "INVALID_DESTINATION",
+            "severity": "error",
+            "message": "C address is not a valid destination",
+            "context": {
+              "destinationKind": "C"
+            }
+          }
+        ]
+      },
+      "tags": [
+        "negative",
+        "sep-0029"
+      ]
+    },
+    {
+      "module": "extract_routing",
+      "description": "G-address with a hash memo: memo type is not routable, so the warning is emitted",
+      "input": {
+        "destination": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "memoType": "hash"
+      },
+      "expected": {
+        "destinationBaseAccount": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "routingId": null,
+        "routingSource": "none",
+        "warnings": [
+          {
+            "code": "UNSUPPORTED_MEMO_TYPE",
+            "severity": "warn",
+            "message": "Memo type hash is not supported for routing.",
+            "context": {
+              "memoType": "hash"
+            }
+          }
+        ]
+      },
+      "tags": [
+        "negative",
+        "sep-0029"
+      ]
     }
   ]
 }
