@@ -445,6 +445,306 @@
         }
       },
       "tags": ["negative", "sep-0029"]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=0 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "0"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAAAAD672"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=1 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "1"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAAAAAAAAAAAAFQGI"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=4294967295 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "4294967295"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAP777774ZGI"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=4294967296 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "4294967296"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAAAAAAQAAAAAAIN4"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=9007199254740991 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "9007199254740991"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAA77777777776YNO"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=9007199254740992 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "9007199254740992"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCABAAAAAAAAAAC3RU"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=18446744073709551615 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "18446744073709551615"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQAD7777777777774OFW"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=4294967294 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "4294967294"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAAAAAAP777772X72"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=9007199254740993 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "9007199254740993"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACABAAAAAAAAAAEVIG"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=9223372036854775808 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "9223372036854775808"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDAAAAAAAAAAAADAIS"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=9223372036854775807 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "9223372036854775807"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQAC7777777777776O2M"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=65535 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "65535"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAAAAAAAAAH775HGS"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=65536 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "65536"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAAAAIAADG4U"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=2147483648 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "2147483648"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAAAAAAIAAAAAB42S"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=2147483647 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "2147483647"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAAH777774FLS"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=281474976710656 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "281474976710656"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAABAAAAAAAAAAQMY"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=72057594037927936 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "72057594037927936"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAIAAAAAAAAAAAXLU"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=72057594037927935 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "72057594037927935"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAH77777777777XUM"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=1000000007 over base A; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQADRSI",
+        "id": "1000000007"
+      },
+      "expected": {
+        "mAddress": "MAYCUYT553C5LHVE2XPW5GMEJT4BXGM7AHMJWLAPZP53KJO7EIQACAAAAAADXGWKA6F7S"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
+    },
+    {
+      "module": "muxed_encode",
+      "description": "boundary id=123456789012345 over base B; M-address and its G-address pair",
+      "input": {
+        "base_g": "GAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQDZ7H",
+        "id": "123456789012345"
+      },
+      "expected": {
+        "mAddress": "MAAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAIBAEAQCAAAOBEIMDO7PHHXA"
+      },
+      "tags": [
+        "positive",
+        "boundary"
+      ]
     }
   ]
 }
