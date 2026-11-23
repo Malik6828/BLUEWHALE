@@ -123,42 +123,23 @@ NormalizeResult normalizeMemoTextId(String s) {
   return NormalizeResult(normalized: normalized, warnings: warnings);
 }
 
-/// A 32-byte `MEMO_HASH` or `MEMO_RETURN` value.
+/// ASCII whitespace per spec/README.md rule 5: space, tab, LF, CR.
+final RegExp _asciiWhitespaceOnly = RegExp(r'^[ \t\n\r]*$');
+
+/// Whether a MEMO_TEXT value carries no content: `null`, `''`, or only ASCII
+/// whitespace (space, tab, LF, CR).
 ///
-/// Exchanges and payment bridges usually carry these as 64-character hex
-/// strings. [Memo.fromHexHash] parses one and [toHexString] writes it back.
+/// Non-ASCII whitespace such as U+00A0 is content, not blank, so it is still
+/// reported as an unroutable MEMO_TEXT. Shared with core-ts
+/// (`isBlankMemoText`) and core-go (`routing.IsBlankMemoText`).
+bool isBlankMemoText(String? value) =>
+    value == null || _asciiWhitespaceOnly.hasMatch(value);
+
+/// Resolves the memo type routing actually acts on. A blank MEMO_TEXT (see
+/// [isBlankMemoText]) is the same as no memo, so it resolves to `'none'`: no
+/// routing ID and no memo warnings, for G and M destinations alike. Every
+/// other memo type is returned unchanged.
 ///
-/// ```dart
-/// final memo = Memo.fromHexHash('00' * 32);
-/// memo.toHexString(); // 64 zeros: leading zero bytes are kept
-/// ```
-class Memo {
-  /// The 32 raw bytes of the memo.
-  final Uint8List bytes;
-
-  Memo._(this.bytes);
-
-  static final RegExp _hexHash = RegExp(r'^[0-9a-fA-F]{64}$');
-
-  /// Parses exactly 64 hexadecimal characters, upper or lower case.
-  ///
-  /// Throws a [FormatException] for any other length or any character
-  /// outside `0-9a-fA-F`.
-  factory Memo.fromHexHash(String hex) {
-    if (!_hexHash.hasMatch(hex)) {
-      throw FormatException(
-        'A hash memo must be exactly 64 hexadecimal characters (0-9, a-f).',
-        hex,
-      );
-    }
-    final bytes = Uint8List(32);
-    for (var i = 0; i < 32; i++) {
-      bytes[i] = int.parse(hex.substring(i * 2, i * 2 + 2), radix: 16);
-    }
-    return Memo._(bytes);
-  }
-
-  /// Lowercase hex, always 64 characters, so leading zero bytes are kept.
-  String toHexString() =>
-      bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
-}
+/// Normative cases live in spec/vectors/empty-memos.json.
+String effectiveMemoType(String memoType, String? memoValue) =>
+    memoType == 'text' && isBlankMemoText(memoValue) ? 'none' : memoType;

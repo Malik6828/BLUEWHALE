@@ -11,8 +11,8 @@ Releases are coordinated with `spec/vectors.json` `spec_version`: see
 
 ### Added
 
-- `Memo.fromHexHash` and `Memo.toHexString` for 32-byte `MEMO_HASH` and
-  `MEMO_RETURN` values as 64-character hex strings (#386).
+- `isBlankMemoText` and `effectiveMemoType`, the shared rule for empty memos.
+
 - `RoutingWarning.fromJson`, plus `DestinationError.toJson` / `fromJson` and
   value equality, so every part of a `RoutingResult` round-trips on its own
   (#228).
@@ -32,6 +32,14 @@ Releases are coordinated with `spec/vectors.json` `spec_version`: see
   reads `spec/schema.json` and asserts `WarningCode.values` matches it.
 - `test/strkey_test.dart`, covering the detailed Base32 diagnostics below
   (#72).
+
+### Changed
+
+- A MEMO_TEXT that is null, `""` or only ASCII whitespace (space, tab, LF,
+  CR) is now treated as no memo by `extractRouting`, for G and M
+  destinations alike. It previously emitted
+  `MEMO_TEXT_UNROUTABLE` (even for `''`) and `MEMO_IGNORED_FOR_MUXED`.
+  Normative cases: `spec/vectors/empty-memos.json`.
 
 ### Fixed
 
