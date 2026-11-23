@@ -1,3 +1,5 @@
+import { RFC1035_LABEL } from "../patterns";
+
 /**
  * RFC 1035 Domain Name Validator.
  *
@@ -171,22 +173,12 @@ export function validateDomain(
       };
     }
 
-    for (let j = labelStart; j < i; j++) {
-      const char = cleaned.charCodeAt(j);
-      if (
-        !(
-          (char >= 0x30 && char <= 0x39) ||
-          (char >= 0x41 && char <= 0x5a) ||
-          (char >= 0x61 && char <= 0x7a) ||
-          char === 0x2d
-        )
-      ) {
-        return {
-          valid: false,
-          error: `Label "${label}" contains invalid characters; only ASCII alphanumeric and hyphens are permitted`,
-          code: "LABEL_INVALID_CHARS",
-        };
-      }
+    if (!RFC1035_LABEL.test(label)) {
+      return {
+        valid: false,
+        error: `Label "${label}" contains invalid characters; only ASCII alphanumeric and hyphens are permitted`,
+        code: "LABEL_INVALID_CHARS",
+      };
     }
 
     labelStart = i + 1;
