@@ -11,6 +11,8 @@ Releases are coordinated with `spec/vectors.json` `spec_version`: see
 
 ### Added
 
+- `isBlankMemoText` and `effectiveMemoType`, the shared rule for empty memos.
+
 - `RoutingWarning.fromJson`, plus `DestinationError.toJson` / `fromJson` and
   value equality, so every part of a `RoutingResult` round-trips on its own
   (#228).
@@ -30,6 +32,14 @@ Releases are coordinated with `spec/vectors.json` `spec_version`: see
   reads `spec/schema.json` and asserts `WarningCode.values` matches it.
 - `test/strkey_test.dart`, covering the detailed Base32 diagnostics below
   (#72).
+
+### Changed
+
+- A MEMO_TEXT that is null, `""` or only ASCII whitespace (space, tab, LF,
+  CR) is now treated as no memo by `extractRouting`, for G and M
+  destinations alike. It previously emitted
+  `MEMO_TEXT_UNROUTABLE` (even for `''`) and `MEMO_IGNORED_FOR_MUXED`.
+  Normative cases: `spec/vectors/empty-memos.json`.
 
 ### Fixed
 
@@ -79,16 +89,17 @@ Releases are coordinated with `spec/vectors.json` `spec_version`: see
   added to `analysis_options.yaml` along with the missing community rules, and
   every finding was fixed (#71).
 
-## [1.3.1] - 2026-11-21
+## [1.3.0] - 2026-11-21
 
 ### Added
 
-- 20 muxed_encode boundary vectors (`muxed_encode`) with matching G-address pairs.
-- 16 muxed_decode negative vectors for illegal base32 characters.
+- SEP-0029 routing vectors (`extract_routing`) for a no-memo G-address, a C-address
+  rejected with a MEMO_ID, and a hash memo that emits `UNSUPPORTED_MEMO_TYPE`.
+- Negative `muxed_decode` vectors for non-canonical base32 padding.
 
 ### Changed
 
-- `spec_version` is 1.3.1.
+- `spec_version` is 1.3.0.
 
 ## [1.2.0] - 2026-09-24
 
