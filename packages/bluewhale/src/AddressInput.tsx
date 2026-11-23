@@ -2,11 +2,10 @@ import React, { useState, useMemo, useEffect, useCallback, CSSProperties } from 
 import { TypeBadge, AddressType } from './components/TypeBadge';
 import { WarningList } from './components/WarningList';
 import { MemoField } from './components/MemoField';
-import {
-  AddressInputLocale,
-  AddressInputTranslations,
-  getAddressInputTranslations,
-} from './i18n';
+import { focusRingCss } from './styles/focusRing';
+
+/** Shared focus-ring rules; see styles/focusRing.ts for the contrast rationale. */
+const FOCUS_RING_CSS = focusRingCss();
 
 /**
  * A simplified routing result for the UI layer.
@@ -292,6 +291,9 @@ export const AddressInput: React.FC<AddressInputProps> = ({
       className={rootClass}
       style={{ maxWidth: '32rem', margin: '0 auto', fontFamily: 'sans-serif', ...style }}
     >
+      {/* High-contrast :focus-visible ring for keyboard and screen-reader users. */}
+      <style data-bw-focus-ring="">{FOCUS_RING_CSS}</style>
+
       {/* Address field */}
       <div
         className="bw-address-input__field-wrap"
@@ -321,7 +323,7 @@ export const AddressInput: React.FC<AddressInputProps> = ({
             borderRadius: '0.5rem',
             fontSize: '1rem',
             boxSizing: 'border-box',
-            outline: 'none',
+            // No `outline: none` here: the visible focus ring comes from FOCUS_RING_CSS.
             transition: 'padding 0.2s ease, border-color 0.2s ease',
           }}
         />
@@ -330,8 +332,19 @@ export const AddressInput: React.FC<AddressInputProps> = ({
       {/* Memo field (G-address only) */}
       <MemoField isVisible={showMemo && !!address} value={memo} onChange={setMemo} />
 
-      {/* Warnings */}
-      <WarningList warnings={warnings} />
+      {/* Keep feedback in a reserved slot so it does not move later fields. */}
+      <div
+        className="bw-address-input__feedback"
+        aria-hidden={warnings.length === 0}
+        style={{
+          minHeight: '6rem',
+          opacity: warnings.length > 0 ? 1 : 0,
+          transform: warnings.length > 0 ? 'translateY(0)' : 'translateY(-0.25rem)',
+          transition: 'opacity 0.18s ease, transform 0.18s ease',
+        }}
+      >
+        <WarningList warnings={warnings} />
+      </div>
 
       {/* Routing summary with optional copy buttons */}
       {type !== 'C' && address && (
