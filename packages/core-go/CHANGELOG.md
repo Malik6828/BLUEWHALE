@@ -82,6 +82,18 @@ Go module versions are published as git tags of the form
 - `address.CalculateCRC16` processes eight bytes per loop iteration; results
   are unchanged (#207).
 
+## [1.3.0] - 2026-11-21
+
+### Added
+
+- SEP-0029 routing vectors (`extract_routing`) for a no-memo G-address, a C-address
+  rejected with a MEMO_ID, and a hash memo that emits `UNSUPPORTED_MEMO_TYPE`.
+- Negative `muxed_decode` vectors for non-canonical base32 padding.
+
+### Changed
+
+- `spec_version` is 1.3.0.
+
 ## [1.2.0] - 2026-09-24
 
 Implements spec `1.2.0`. First versioned release of the Go module; earlier
