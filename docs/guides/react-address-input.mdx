@@ -60,37 +60,51 @@ import type { AddressType } from "@redishfish/bluewhale";
 
 For backend-grade routing extraction (muxed ID decoding, memo reconciliation, precision warnings), pair these components with [`@redishfish/bluewhale-core`](/docs/api-reference/extract-routing).
 
-## React Hook Form
+## Validation message localization
 
-`useBluewhaleValidation` returns a validator compatible with React Hook Form's `register` options. It accepts valid G- and M-addresses, rejects malformed addresses and contract addresses as payment destinations, and lets an empty value pass so the form can use RHF's separate `required` rule.
+`AddressInput` supports English (`en`), Spanish (`es`), French (`fr`), Chinese
+(`zh`), and Russian (`ru`). Pass `locale` to select the built-in messages, or
+provide a `translations` object to override individual validation messages:
 
 ```tsx
-import { useForm } from "react-hook-form";
-import { useBluewhaleValidation } from "@redishfish/bluewhale";
+<AddressInput
+  locale="es"
+  translations={{
+    contractAddressWarning: "Custom message for contract destinations.",
+  }}
+/>
+```
 
-type DepositFormValues = { address: string };
+The override keys are `contractAddressWarning` and
+`muxedAddressMemoWarning`; omitted keys use the selected locale's translation.
 
-function DepositForm() {
-  const { register, handleSubmit, formState: { errors } } =
-    useForm<DepositFormValues>();
-  const validateAddress = useBluewhaleValidation();
+## Theming
 
-  return (
-    <form onSubmit={handleSubmit(({ address }) => console.log(address))}>
-      <label htmlFor="address">Destination address</label>
-      <input
-        id="address"
-        {...register("address", {
-          required: "Enter a destination address.",
-          validate: validateAddress,
-        })}
-        aria-invalid={Boolean(errors.address)}
-      />
-      {errors.address && <p role="alert">{errors.address.message}</p>}
-      <button type="submit">Continue</button>
-    </form>
-  );
+Import the optional stylesheet to apply the default theme and mobile layout:
+
+```tsx
+import "@redishfish/bluewhale/styles.css";
+```
+
+The stylesheet exports four CSS custom properties that can be overridden on
+`:root` or any ancestor of an `AddressInput`. The defaults follow the user's
+`prefers-color-scheme` setting, including dark mode.
+
+| Property | Purpose | Light default |
+| --- | --- | --- |
+| `--bw-bg` | Component and input backgrounds | `#ffffff` |
+| `--bw-border` | Input and summary borders | `#cbd5e1` |
+| `--bw-text` | Primary component text | `#1e293b` |
+| `--bw-warning` | Warning text and accents | `#92400e` |
+
+```css
+:root {
+  --bw-bg: #111827;
+  --bw-border: #374151;
+  --bw-text: #f9fafb;
+  --bw-warning: #fbbf24;
 }
 ```
 
-See the complete runnable example in [`examples/react-deposit-form`](https://github.com/progidyken-hub/BLUEWHALE/tree/main/examples/react-deposit-form).
+To load only the theme variables, import
+`@redishfish/bluewhale/theme.css`.
